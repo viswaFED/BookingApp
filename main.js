@@ -36,7 +36,7 @@ function onSubmit(e) {
 
 
 
-       //showNewUserOnScreen(myObj);
+        //showNewUserOnScreen(myObj);
         //var li=document.createElement('li');
 
         //var editButton=document.createElement('button')
@@ -45,19 +45,30 @@ function onSubmit(e) {
 
     }
 }
-const obj1 = JSON.parse(localStorage.getItem('ritesh151990@gmail.com'));
+const obj1 = JSON.parse(localStorage.getItem(''));
 
 function showNewUserOnScreen(user) {
     const parentNode = document.getElementById('listOfUsers');
-    const childHTML= `<li id='${user.Email}'> ${user.Name} - ${user.Email} <button style='background-color:green' onclick=editUser('${user.Name}','${user.Email}')>EDIT</button><button style='background-color:red' onclick=deleteUser('${user.Email}')>DELETE</button> </li>`;
+    const childHTML = `<li id='${user.Email}'> ${user.Name} - ${user.Email} <button style='background-color:green' onclick=editUser('${user.Name}','${user.Email}')>EDIT</button><button style='background-color:red' onclick=deleteUser('${user.Email}')>DELETE</button> </li>`;
     parentNode.innerHTML = parentNode.innerHTML + childHTML;
 }
 document.addEventListener('DOMContentLoaded', () => {
-    Object.keys(localStorage).forEach((key) => {
-        stringifiedDetailsOfPeople = localStorage.getItem(key);
-        detailsOfPeople = JSON.parse(stringifiedDetailsOfPeople);
-        showNewUserOnScreen(detailsOfPeople);
-    });
+    // Object.keys(localStorage).forEach((key) => {
+    //     stringifiedDetailsOfPeople = localStorage.getItem(key);
+    //     detailsOfPeople = JSON.parse(stringifiedDetailsOfPeople);
+    //     showNewUserOnScreen(detailsOfPeople);
+    // });
+    axios.get("https://crudcrud.com/api/366e1af1f7eb4e7abe4ade95c423eca7/appointmentdata")
+        .then((response) => {
+            console.log(response);
+            for (var i = 0; i < response.data.length; i++) {
+                showNewUserOnScreen(response.data[i]);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
 });
 function editUser(name, emailId) {
     document.getElementById('name').value = name;
